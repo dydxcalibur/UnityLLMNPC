@@ -12,8 +12,24 @@ An interactive Non-Player Character (NPC) framework for Unity that connects 3D *
 
 * **Local LLM Integration:** Communicates with LM Studio's local OpenAI-compatible API endpoint without requiring external cloud API keys.
 * **VRM Avatar Support:** Renders standard `.vrm` character models using the UniVRM framework.
-* **Non-Blocking Execution:** Uses C# asynchronous patterns (`async`/`await` and `UnityWebRequest`) to maintain high framerates while waiting for model responses.
+* **Vroid Facial Expression Support:** Animate standard `.vrm` character models using BlendShapes
 * **Prompt & State Management:** Structures dialogue context and system prompts to control NPC personality and responses.
+
+System prompt format:
+```
+"
+Role: your character's role here
+Personality: your character's persona here
+Constraints: NEVER mention you are an AI or a language model or we are in a game world. Stay in character at all times. Use short, conversational sentences. DO NOT always ask questions. DO NOT explain your chain of thought. DO NOT add gestures into the speech field.
+Output Format: You must always respond in valid JSON format so the game engine can parse your emotions. Your response is case-sensitive. 
+JSON Schema:
+{
+""facialExpression"": ""Default/Joy/Surprised/Angry/Fun/Sorrow"",
+""animation"": ""idle/cute_posture/down/meow"",
+""speech"": ""Your response text here""
+}
+"
+```
 
 ---
 
@@ -100,6 +116,7 @@ You can adjust the endpoint settings directly on the `LLMLoader` ScriptableObjec
 * **Asynchronous Web Requests:** Prevented main-thread freezing during high token generation latencies by wrapping `UnityWebRequest` in asynchronous C# task handlers.
 * **Third-Party Package Integration:** Learned how to import, configure, and isolate third-party VRM packages (`UniVRM`) within the Unity package ecosystem.
 * **JSON Serialization:** Handled nested data structures for OpenAI-style API payloads using structured C# classes and `JsonUtility` / `Newtonsoft.Json`.
+* **Unity Animator:** Set up multiple facial expression animation using BlendShapes field from `.vrm` models.
 
 ---
 

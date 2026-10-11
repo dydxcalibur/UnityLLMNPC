@@ -11,6 +11,7 @@ public class LLMLoader : MonoBehaviour
     [Header("LM Studio Settings")]
     [SerializeField] private string apiUrl = "http://localhost:1234/v1/chat/completions";
     [SerializeField] private string modelName = "local-model"; // Can be anything for LM Studio
+    [SerializeField] private float temperature = 0.7f; // Adjust for creativity in responses
 
     [Header("Prompts")]
     [TextArea]
@@ -25,7 +26,7 @@ public class LLMLoader : MonoBehaviour
     ""animation"": ""idle/cute_posture/down"",
     ""speech"": ""Your response text here""
     }
-    ";
+    "; // default prompt, change it to your desired system prompt in editor following the JSON schema provided. The system prompt is sent only once at the start of the conversation.
 
     [Header("UI")]
     [SerializeField] private TMP_Text outputText;
@@ -37,7 +38,7 @@ public class LLMLoader : MonoBehaviour
     private void Start()
     {
         SendSystemPrompt();
-        SendUserPrompt("Hello Myra! How are you today?");
+        SendUserPrompt("Hello! How are you today?"); // Initial user prompt to start the conversation
     }
 
     private void SendSystemPrompt()
@@ -71,12 +72,12 @@ public class LLMLoader : MonoBehaviour
 
     private IEnumerator SendRequest()
     {
-        outputText.text = "Myra is thinking...";
+        outputText.text = "thinking...";
         RequestBody requestBody = new RequestBody
         {
             model = modelName,
             messages = conversation,
-            temperature = 0.7f
+            temperature = temperature
         };
 
         string json = JsonUtility.ToJson(requestBody);
